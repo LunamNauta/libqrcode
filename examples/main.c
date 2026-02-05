@@ -1,5 +1,7 @@
-#include "encoding.h"
+#include "qrcode/encoding.h"
+#include "qrcode/common.h"
 
+#include <stdint.h>
 #include <string.h>
 #include <stdio.h>
 
