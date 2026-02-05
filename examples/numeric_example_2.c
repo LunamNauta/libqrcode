@@ -1,3 +1,5 @@
+#include "helper.h"
+
 #include "qrcode/encoding.h"
 #include "qrcode/common.h"
 
@@ -5,26 +7,10 @@
 #include <string.h>
 #include <stdio.h>
 
-static void dump_hex(const uint8_t* buf, size_t bits){
-    size_t bytes = (bits + 7) / 8;
-    for (size_t i = 0; i < bytes; i++){
-        printf("%02X ", buf[i]);
-    }
-    printf("\n");
-}
+// Example 2 from 7.4.4, pg. 31
 
-static void dump_bits(const uint8_t* buf, size_t bits){
-    for (size_t i = 0; i < bits; i++){
-        size_t byte = i >> 3;
-        size_t off  = 7 - (i & 7);
-        printf("%d", (buf[byte] >> off) & 1);
-        if ((i & 3) == 3) printf(" ");
-    }
-    printf("\n");
-}
-
-int main(void){
-    const char *input = "012345678901234567";
+int main(){
+    const char* input = "0123456789012345";
     uint8_t buf[64] = {0};
     ssize_t bit = 0;
     int version = QRCODE_MICRO(3);
@@ -45,6 +31,13 @@ int main(void){
 
     printf("Bit output:\n");
     dump_bits(buf, bit);
-
-    return 0;
 }
+
+// 00 10000 0000001100 0101011001 1010100110 1110000101 0011101010 0101 0000000
+
+// Mode Indicator      : 00
+// Character Count     : 10000
+// Data                : 0000001100 0101011001 1010100110 1110000101 0011101010 0101
+// Terminator          : 0000000
+// Boundary Padding    : N/A (Bit capacity reached)
+// Alternating Padding : N/A (Bit capacity reached)
