@@ -1,7 +1,7 @@
 #ifndef QRCODE_VALIDATION_HEADER
 #define QRCODE_VALIDATION_HEADER
 
-#include "common.h"
+#include "qrcode/common.h"
 
 #include <stdbool.h>
 #include <stddef.h>

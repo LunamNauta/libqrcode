@@ -1,9 +1,9 @@
-#include "../../include/qrcode/encoding.h"
+#include "qrcode/encoding.h"
 
-#include "../../include/qrcode/info/capacity_info.h"
-#include "../../include/qrcode/info/encoding_info.h"
-#include "../../include/qrcode/priv/writing.h"
-#include "../../include/qrcode/common.h"
+#include "qrcode/info/capacity_info.h"
+#include "qrcode/info/encoding_info.h"
+#include "qrcode/priv/writing.h"
+#include "qrcode/common.h"
 
 #include <stdbool.h>
 

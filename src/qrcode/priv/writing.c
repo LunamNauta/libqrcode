@@ -1,4 +1,4 @@
-#include "../../../include/qrcode/priv/writing.h"
+#include "qrcode/priv/writing.h"
 
 void qrcode_write_bits(uint8_t* buf, uintmax_t val, size_t nbits, size_t* out_bit){
     uintmax_t val_tmp;

@@ -1,5 +1,5 @@
-#include "../../include/qrcode/info/capacity_info.h"
-#include "../../include/qrcode/validation.h"
+#include "qrcode/info/capacity_info.h"
+#include "qrcode/validation.h"
 
 #include <stdbool.h>
 

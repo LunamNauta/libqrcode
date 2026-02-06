@@ -1,5 +1,5 @@
-#include "../../include/qrcode/info/encoding_info.h"
-#include "../../include/qrcode/common.h"
+#include "qrcode/info/encoding_info.h"
+#include "qrcode/common.h"
 
 #include <stdbool.h>
 

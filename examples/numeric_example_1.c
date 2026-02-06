@@ -1,7 +1,7 @@
-#include "helper.h"
+#include "./helper.h"
 
-#include "../include/qrcode/encoding.h"
-#include "../include/qrcode/common.h"
+#include "qrcode/encoding.h"
+#include "qrcode/common.h"
 
 #include <stdint.h>
 #include <string.h>

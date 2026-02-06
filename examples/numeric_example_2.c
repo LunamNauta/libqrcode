@@ -1,4 +1,4 @@
-#include "helper.h"
+#include "./helper.h"
 
 #include "qrcode/encoding.h"
 #include "qrcode/common.h"
