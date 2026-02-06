@@ -1,15 +1,37 @@
 #ifndef QRCODE_ENCODING_HEADER
 #define QRCODE_ENCODING_HEADER
 
+#include <stddef.h>
 #include <stdint.h>
 
-#include <sys/types.h>
+// Other than ECI modes, 'data' is assumed to be a valid UTF-8 encoded string
+// If 'data' is not a valid UTF-8 string, undefined behavior is invoked
 
-// Assumes valid utf8 string
-ssize_t qrcode_encode_numeric(const uint8_t* data, uint8_t* buf, size_t dlen, ssize_t bit, int version, int ecl);
+// In ECI modes, 'data' is assumed to be a valid 'eci' encoded string
+// If 'data' is not a valid 'eci' encoded string, undefined behavior is invoked
 
-ssize_t qrcode_add_terminator(uint8_t* buf, ssize_t bit, int version, int ecl);
+// 7.4.4
+int qrcode_encode_numeric(const uint8_t* data, size_t dlen, uint8_t* buf, int version, int ecl, size_t* out_bit);
 
-ssize_t qrcode_add_padding(uint8_t* buf, ssize_t bit, int version, int ecl);
+// 7.4.5
+int qrcode_encode_alphanumeric(const uint8_t* data, size_t dlen, uint8_t* buf, int version, int ecl, size_t* out_bit);
+
+// 7.4.6
+int qrcode_encode_byte(const uint8_t* data, size_t dlen, uint8_t* buf, int version, int ecl, size_t* out_bit);
+
+// 7.4.7
+int qrcode_encode_kanji(const uint8_t* data, size_t dlen, uint8_t* buf, int version, int ecl, size_t* out_bit);
+
+// 7.4.3.2
+int qrcode_encode_eci(const uint8_t* data, size_t dlen, uint8_t* buf, int version, int ecl, int eci, size_t* out_bit);
+
+// 8
+int qrcode_append_structured(uint8_t* buf, int version, int ecl, int position, int total, int parity, size_t* out_bit);
+
+// 7.4.10
+int qrcode_append_terminator(uint8_t* buf, int version, int ecl, size_t* out_bit);
+
+// 7.4.11
+int qrcode_append_padding(uint8_t* buf, int version, int ecl, size_t* out_bit);
 
 #endif
