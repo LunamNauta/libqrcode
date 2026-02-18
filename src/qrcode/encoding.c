@@ -54,12 +54,11 @@ int qrcode_encode_numeric(uint8_t* buf, const uint8_t* data, size_t dlen, int ve
             nbits = 7;
             a += 2;
         }
-        else if (rem == 1){
+        else{
             val = (data[a] - '0');
             nbits = 4;
             a += 1;
         }
-        else break;
         if (*ref_bit + nbits > bits) return -1;
         qrcode_write_bits(buf, val, nbits, ref_bit);
     }
@@ -91,12 +90,11 @@ int qrcode_encode_alphanumeric(uint8_t* buf, const uint8_t* data, size_t dlen, i
             nbits = 11;
             a += 2;
         }
-        else if (rem == 1){
+        else{
             val = qrcode_alphanumeric_value(data[a]);
             nbits = 6;
             a += 1;
         }
-        else break;
         if (*ref_bit + nbits > bits) return -1;
         qrcode_write_bits(buf, val, nbits, ref_bit);
     }
@@ -109,7 +107,10 @@ int qrcode_encode_byte(uint8_t* buf, const uint8_t* data, size_t dlen, int ver, 
     size_t bits;
 
     for (size_t a = 0; a < dlen; a++){
-        if (data[a] > 0x7f) return QRCODE_ERROR(QRCODE_ERROR_DATA, -1);
+        if (data[a] <= 0x7f) continue;
+        if (data[a] == 0xc2 && data[a + 1] >= 0x80 && data[a + 1] <= 0xbf) continue;
+        if (data[a] == 0xc3 && data[a + 1] >= 0x80 && data[a + 1] <= 0xbf) continue;
+        return QRCODE_ERROR(QRCODE_ERROR_DATA, -1);
     }
 
     if (qrcode_capacity_info(ver, ecl, QRCODE_ENCODING_ALPHANUMERIC, &cinfo) < 0) return -1;
@@ -120,8 +121,18 @@ int qrcode_encode_byte(uint8_t* buf, const uint8_t* data, size_t dlen, int ver, 
     qrcode_write_bits(buf, dlen, einfo.count_len, ref_bit);
 
     for (size_t a = 0; a < dlen;){
+        uint8_t val;
+        if (data[a] <= 0x7f){
+            val = data[a];
+            a += 1;
+        }
+        else{
+            val = ((data[a] & 0x03) << 2) | (data[a + 1] & 0x3f);
+            a += 2;
+        }
+
         if (*ref_bit + 8 > bits) return -1;
-        qrcode_write_bits(buf, data[a], 8, ref_bit);
+        qrcode_write_bits(buf, val, 8, ref_bit);
     }
 
     return 0;
