@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-static void dump_hex(const uint8_t* buf, size_t bits){
+void dump_hex(const uint8_t* buf, size_t bits){
     size_t bytes = (bits + 7) / 8;
     for (size_t a = 0; a < bytes; a++){
         printf("%02X ", buf[a]);
@@ -13,7 +13,7 @@ static void dump_hex(const uint8_t* buf, size_t bits){
     printf("\n");
 }
 
-static void dump_bits(const uint8_t* buf, size_t bits){
+void dump_bits(const uint8_t* buf, size_t bits){
     for (size_t a = 0; a < bits; a++){
         size_t byte = a >> 3;
         size_t off  = 7 - (a & 7);

@@ -1,15 +1,21 @@
 #ifndef QRCODE_ENCODING_HEADER
 #define QRCODE_ENCODING_HEADER
 
+#include <stddef.h>
 #include <stdint.h>
 
-#include <sys/types.h>
+// 7.4.4
+int qrcode_encode_numeric(uint8_t* buf, const uint8_t* data, size_t dlen, int ver, int ecl, size_t* ref_bit);
+// 7.4.5
+int qrcode_encode_alphanumeric(uint8_t* buf, const uint8_t* data, size_t dlen, int ver, int ecl, size_t* ref_bit);
+// 7.4.6
+int qrcode_encode_byte(uint8_t* buf, const uint8_t* data, size_t dlen, int ver, int ecl, size_t* ref_bit);
+// 7.4.7
+int qrcode_encode_kanji(uint8_t* buf, const uint8_t* data, size_t dlen, int ver, int ecl, size_t* ref_bit);
 
-// Assumes valid utf8 string
-ssize_t qrcode_encode_numeric(const uint8_t* data, uint8_t* buf, size_t dlen, ssize_t bit, int version, int ecl);
-
-ssize_t qrcode_add_terminator(uint8_t* buf, ssize_t bit, int version, int ecl);
-
-ssize_t qrcode_add_padding(uint8_t* buf, ssize_t bit, int version, int ecl);
+// 7.4.10
+int qrcode_append_terminator(uint8_t* buf, int ver, int ecl, size_t* ref_bit);
+// 7.4.11
+int qrcode_append_padding(uint8_t* buf, int ver, int ecl, size_t* ref_bit);
 
 #endif

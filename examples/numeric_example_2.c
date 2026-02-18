@@ -1,4 +1,4 @@
-#include "helper.h"
+#include "./helper.h"
 
 #include "qrcode/encoding.h"
 #include "qrcode/common.h"
@@ -7,21 +7,27 @@
 #include <string.h>
 #include <stdio.h>
 
-// Example 2 from 7.4.4, pg. 31
+// Example 2 from 7.4.4
 
 int main(){
     const char* input = "0123456789012345";
     uint8_t buf[64] = {0};
-    ssize_t bit = 0;
-    int version = QRCODE_MICRO(3);
+    size_t bit = 0;
+    int version = QRCODE_VERSION_MICRO(3);
     int ecl = QRCODE_ECL_M;
     
-    bit = qrcode_encode_numeric((const uint8_t*)input, buf, strlen(input), bit, version, ecl);
-    if (bit < 0){printf("Encoding failed\n"); return -1;}
-    bit = qrcode_add_terminator(buf, bit, version, ecl);
-    if (bit < 0){printf("Encoding failed\n"); return -1;}
-    bit = qrcode_add_padding(buf, bit, version, ecl);
-    if (bit < 0){printf("Encoding failed\n"); return -1;}
+    if (qrcode_encode_numeric(buf, (const uint8_t*)input, strlen(input), version, ecl, &bit) < 0){
+        printf("Encoding failed\n");
+        return -1;
+    }
+    if (qrcode_append_terminator(buf, version, ecl, &bit) < 0){
+        printf("Encoding failed\n");
+        return -1;
+    }
+    if (qrcode_append_padding(buf, version, ecl, &bit) < 0){
+        printf("Encoding failed\n");
+        return -1;
+    }
 
     printf("Input: \"%s\"\n", input);
     printf("Bits written: %zd\n", bit);
