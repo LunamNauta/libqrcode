@@ -14,9 +14,9 @@ The purpose of this project is to provide a simple interface for encoding/decodi
 - [ ] Support all data modes
     - [x] Numeric, encode
     - [ ] Numeric, decode
-    - [ ] Alphanumeric, encode
+    - [x] Alphanumeric, encode
     - [ ] Alphanumeric, decode
-    - [ ] Byte, encode
+    - [x] Byte, encode
     - [ ] Byte, decode
     - [ ] Kanji, encode
     - [ ] Kanji, decode
